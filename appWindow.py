@@ -9,7 +9,6 @@ class AppWindow:
         windll.shcore.SetProcessDpiAwareness(1)
         self.window = tk.Tk()
         self.window.geometry(str(size_x) + "x" + str(size_y))
-        self.font = Font(file="Nunito.ttf", family="Nunito")
         self.window.title("Easy Cassette Image Maker")
         self.window.iconbitmap("CassetteImageMakerIcon.ico")
         self.window.configure(bg="#121212")
@@ -39,7 +38,6 @@ class AppWindow:
     def make_text(self, text, pos_x=0, pos_y=0):
         text_label = tk.Label(self.window,
                               text=text,
-                              font=self.font,
                               fg="white",
                               bg=self.window.cget("bg"))
         text_label.place(x=pos_x, y=pos_y, anchor=tk.CENTER)
@@ -48,9 +46,7 @@ class AppWindow:
     def make_button(self, text, command="", pos_x=0, pos_y=0):
         button = tk.Button(self.window,
                            text=text,
-                           command=command,
-                           font=self.font,
-                           fg="white",
+                           command=command,                           fg="white",
                            bg=self.window.cget("bg"))
         button.place(x=pos_x, y=pos_y, anchor=tk.CENTER)
         return button
