@@ -2,4 +2,4 @@
 # Easy Cassette Image Maker For ROBOBEAT
 Application for the game [ROBOBEAT](https://store.steampowered.com/app/1456760/ROBOBEAT/) that makes creating custom cassette covers easy. <br> <br> <br>
 ### ATTENTION
-This makes creating the <b>COVER IMAGES<b> for the cassettes easy, it does not make creating the actual mapped cassette easier.
+This makes creating the <b>COVER IMAGES<b> for the cassettes easy, it does not make creating the actual mapped part of the cassettes easier.
