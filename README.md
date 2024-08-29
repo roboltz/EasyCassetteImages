@@ -43,5 +43,5 @@ cd EasyCassetteImages
 python3 -m PyInstaller main.py --onefile --noconsole
 ```
 
-5. Open C:\Users\(name)\EasyCassetteImages and move all image files including the .ico into the dist folder. rename main.exe to whatever you want and you should be able to run it as long as the image files are in the same folder as the .exe.
+5. Open C:\Users\(name)\EasyCassetteImages and move all image files including the .ico into the dist folder. rename main.exe to whatever you want and you should be able to run it as long as the image files are in the same folder as the .exe. You don't need anything other than the dist folder now that you are complete
 
