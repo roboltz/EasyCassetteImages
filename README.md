@@ -24,7 +24,7 @@ If the command returns an error because the command python3.12 is not recognized
 python -m pip install nuitka
 ```
 
-3. Install [Git](https://gitforwindows.org/) if you dont have it already and run this command:
+3. Install [Git](https://gitforwindows.org/) if you don't have it already and run this command:
 ```console
 git clone https://github.com/roboltz/EasyCassetteImages.git
 ```
