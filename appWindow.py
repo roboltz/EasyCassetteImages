@@ -1,6 +1,5 @@
 import tkinter as tk
 from PIL import Image, ImageTk, ImageFile
-from tkextrafont import Font
 from ctypes import windll
 
 class AppWindow:
