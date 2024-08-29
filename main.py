@@ -1,7 +1,7 @@
 from tkinter import filedialog
 from appWindow import AppWindow
 import tkinter as tk
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, ImageGrab
 from functools import partial
 import os
 
@@ -108,12 +108,25 @@ class MovingImage:
             self.update_image()
 
     # creates a second image and merges the first image with the cassette template
-    def add_second_img(self, is_mirroring=False):
+    def add_second_img(self, is_mirroring=False, is_using_clipboard=False):
+        new_img_path = ""
         if self.num_image < 2:
             if is_mirroring:
                 new_img_path = self.img_path
             else:
-                new_img_path = filedialog.askopenfilename(filetypes=[('Allowed Types', '*.png *.jpeg *.jpg')])
+                if not is_using_clipboard:
+                    new_img_path = filedialog.askopenfilename(filetypes=[('Allowed Types', '*.png *.jpeg *.jpg')])
+                else:
+                    if not os.path.isdir("temp"):
+                        os.mkdir("temp")
+                    clipboard_img = ImageGrab.grabclipboard()
+                    if clipboard_img is not None:
+                        clipboard_img.save("temp\\clipboard.png", 'PNG')
+                        new_img_path = "temp\\clipboard.png"
+                        self.num_image += 1
+                    else:
+                        self.main_window.make_temp_message("No Image Found!", 1000, 850, 475)
+
             if new_img_path:
                 self.num_image += 1
                 self.update_image(True)
@@ -124,15 +137,29 @@ class MovingImage:
                 self.update_image()
 
 
-
 # Asks the user to select a file to use for an image
-def select_file(window, making_second_image=False):
-    img_path = filedialog.askopenfilename(filetypes=[('Allowed Types', '*.png *.jpeg *.jpg')])
+def select_file(window, using_clipboard=False):
+    if using_clipboard:
+        img_path = "temp\\clipboard.png"
+    else:
+        img_path = filedialog.askopenfilename(filetypes=[('Allowed Types', '*.png *.jpeg *.jpg')])
     if img_path:
         window.destroy_children()
         moving_img = MovingImage(window, img_path)
         moving_img.update_image()
         main_editor(window, moving_img)
+
+
+def make_clipboard_file(window):
+    if not os.path.isdir("temp"):
+        os.mkdir("temp")
+    img_from_clipboard = ImageGrab.grabclipboard()
+    if img_from_clipboard is not None:
+        img_from_clipboard.save("temp\\clipboard.png", 'PNG')
+        select_file(window, True)
+    else:
+        window.make_temp_message("No Image Found!", 1000, 500, 475)
+
 
 # layout of buttons and text that the user presses to change an image within the cassette template
 def main_editor(window, moving_img):
@@ -157,11 +184,13 @@ def main_editor(window, moving_img):
     window.make_button("Left", partial(moving_img.move, "left"), 300, 700)
     window.make_button("Right", partial(moving_img.move, "right"), 400, 700)
 
-    window.make_button("Finished", partial(moving_img.finished), 850, 600)
+    window.make_button("Finish", partial(moving_img.finished), 850, 550)
 
-    window.make_button("Add Second Image", partial(moving_img.add_second_img), 850, 650)
+    window.make_button("Add 2nd Image", partial(moving_img.add_second_img), 850, 600)
 
-    window.make_button("Mirror First Image", moving_img.mirror, 850, 700)
+    window.make_button("Add 2nd From Clipboard", partial(moving_img.add_second_img, False, True), 850, 650)
+
+    window.make_button("Mirror 1st Image", moving_img.mirror, 850, 700)
 
 
 if __name__ == '__main__':
@@ -170,4 +199,7 @@ if __name__ == '__main__':
     newWindow.make_image("CassetteImageMakerIcon.png", 500, 65)
     newWindow.make_text("Easy Cassette Image Maker for ROBOBEAT", 500, 25)
     newWindow.make_button("Select File", partial(select_file, newWindow), 500, 300)
+    newWindow.make_button("Get Image From Clipboard", partial(make_clipboard_file, newWindow), 500, 400)
     tk.mainloop()
+    if os.path.isfile("temp\\clipboard.png"):
+        os.remove("temp\\clipboard.png")

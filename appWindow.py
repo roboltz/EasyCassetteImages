@@ -1,4 +1,6 @@
 import tkinter as tk
+from email.message import Message
+
 from PIL import Image, ImageTk, ImageFile
 from ctypes import windll
 
@@ -50,6 +52,14 @@ class AppWindow:
                            bg=self.window.cget("bg"))
         button.place(x=pos_x, y=pos_y, anchor=tk.CENTER)
         return button
+
+    def make_temp_message(self, text, time, pos_x=0, pos_y=0):
+        message = tk.Message(self.window,
+                             text=text,
+                             fg="white",
+                             bg=self.window.cget("bg"))
+        message.place(x=pos_x, y=pos_y, anchor=tk.CENTER)
+        self.window.after(time, message.destroy)
 
     # removes all items from a tkinter canvas
     # Don't take this function out of context
