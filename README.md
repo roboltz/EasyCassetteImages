@@ -37,11 +37,16 @@ Now focus the working directory to the source code folder with this command:
 cd EasyCassetteImages
 ```
 
-4. Use PyInstaller to package the source code into a useable .exe. This step is most likely why some antiviruses in VirusTotal detect this application as a virus. Windows Defender will most likely show up when running saying it's a potentially unwanted app. This does not mean it's a virus, Windows is just saying that there is a possibility of it being dangerous. Do your research on PyInstaller and different commands used in this build process if you feel skeptical in any way.
+4. Install other required libraries:
+```console
+python3 -m pip install -r requirements.txt
+```
+
+5. Use PyInstaller to package the source code into a useable .exe. This step is most likely why some antiviruses in VirusTotal detect this application as a virus. Windows Defender will most likely show up when running saying it's a potentially unwanted app. This does not mean it's a virus, Windows is just saying that there is a possibility of it being dangerous. Do your research on PyInstaller and different commands used in this build process if you feel skeptical in any way.
 ![image](https://github.com/user-attachments/assets/f1b5ba98-1a8f-4c80-b6bd-7253b91b97d7)
 ```console
 python3 -m PyInstaller main.py --onefile --noconsole
 ```
 
-5. Open C:\Users\(name)\EasyCassetteImages and move all image files including the .ico into the dist folder. rename main.exe to whatever you want and you should be able to run it as long as the image files are in the same folder as the .exe. You don't need anything other than the dist folder now that you are complete
+6. Open C:\Users\(name)\EasyCassetteImages and move all image files including the .ico into the dist folder. rename main.exe to whatever you want and you should be able to run it as long as the image files are in the same folder as the .exe. You don't need anything other than the dist folder now that you are complete
 
