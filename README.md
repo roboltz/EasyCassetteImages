@@ -5,10 +5,8 @@ Application for the game [ROBOBEAT](https://store.steampowered.com/app/1456760/R
 This makes creating the COVER IMAGES for the cassettes easy, it does not make creating the actual mapped part of the cassettes easier.
 
 ## Planned Features
-* Option to use image from clipboard as opposed to stored files.
-* Button to flip image.
-* button to use first image for second image and mirror it over to the other side of the cassette.
 * Linux support.
+* Back Button.
 
 ## Build Instructions (Windows Only)
 A couple of sources in VirusTotal incorrectly detect that the compiled version of the app found in releases is malware. If you don't trust that it's not malware or you are contributing to the project, you can build the app yourself directly from the source code. There is currently no support for Linux or Mac, but Linux support is planned in the future.
