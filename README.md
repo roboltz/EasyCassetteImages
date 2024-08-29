@@ -11,7 +11,7 @@ This makes creating the COVER IMAGES for the cassettes easy, it does not make cr
 * Linux support.
 
 ## Build Instructions (Windows Only)
-A few sources in VirusTotal incorrectly detect that the compiled version of the app found in releases is a trojan. If you don't trust that it's not actually a trojan or you are contributing to the project, you can build the app yourself directly from the source code. There is currently no support for Linux or Mac, but Linux support is planned in the future.
+A couple of sources in VirusTotal incorrectly detect that the compiled version of the app found in releases is malware. If you don't trust that it's not malware or you are contributing to the project, you can build the app yourself directly from the source code. There is currently no support for Linux or Mac, but Linux support is planned in the future.
 
 1. Make sure Python 3.12 is installed. (IMPORTANT: Make sure you are NOT using the microsoft store version of Python!):
 ```console
