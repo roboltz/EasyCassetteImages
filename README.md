@@ -37,7 +37,7 @@ Now focus the working directory to the source code folder with this command:
 cd EasyCassetteImages
 ```
 
-4. Use PyInstaller to package the source code into a useable .exe. This step is most likely why some antiviruses in VirusTotal detect this application as a virus. Windows Defender will most likely show up when running saying it's a potentially unwanted app. This does not mean it's a virus, Windows is just saying that there is a possibility of it being dangerous. Do your research on PyInstaller and different commands used in this process if you are skeptical.
+4. Use PyInstaller to package the source code into a useable .exe. This step is most likely why some antiviruses in VirusTotal detect this application as a virus. Windows Defender will most likely show up when running saying it's a potentially unwanted app. This does not mean it's a virus, Windows is just saying that there is a possibility of it being dangerous. Do your research on PyInstaller and different commands used in this build process if you feel skeptical in any way.
 ![image](https://github.com/user-attachments/assets/f1b5ba98-1a8f-4c80-b6bd-7253b91b97d7)
 ```console
 python3 -m PyInstaller main.py --onefile --noconsole
