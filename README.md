@@ -17,7 +17,7 @@ A few sources in VirusTotal incorrectly detect that the compiled version of the 
 ```console
 python3.12 -version
 ```
-If the command returns an error because the command python3.12 is not recognized, you will need to install Python on their [website](https://www.python.org/downloads/windows)
+If the command returns an error because the command python3.12 is not recognized, you will need to install Python on their [website](https://www.python.org/downloads/windows).
 
 2. Install the [Nuitka](https://pypi.org/project/Nuitka) library:
 ```console
