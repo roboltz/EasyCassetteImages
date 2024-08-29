@@ -11,20 +11,17 @@ This makes creating the COVER IMAGES for the cassettes easy, it does not make cr
 * Linux support.
 
 ## Build Instructions (Windows Only)
-A few sources in VirusTotal detect the compiled version of the app found in releases as a trojan. If you don't trust that it's not actually a trojan or you are contributing to the project, you can build directly from the source code. There is currently no support for Linux or Mac, but Linux support is planned in the future.
+A few sources in VirusTotal incorrectly detect that the compiled version of the app found in releases as a trojan. If you don't trust that it's not actually a trojan or you are contributing to the project, you can build the app yourself directly from the source code. There is currently no support for Linux or Mac, but Linux support is planned in the future.
 
-1. Make sure Python 3.12 is installed:
+1. Make sure Python 3.12 is installed. (IMPORTANT: Make sure you are NOT using the microsoft store version of Python!):
 ```console
 python3.12 -version
 ```
-If the command returns an error because the command python3.12 is not recognized, you will need to install python 3.12 with this command in Powershell:
-```console
-winget install --id=Python.Python.3.12  -e
-```
+If the command returns an error because the command python3.12 is not recognized, you will need to install [Python](https://www.python.org/downloads/windows/)
 
-2. Install the [PyInstaller](https://pypi.org/project/pyinstaller/) library:
+2. Install the [Nuitka](https://pypi.org/project/Nuitka) library:
 ```console
-python3 -m pip install pyinstaller
+python -m pip install nuitka
 ```
 
 3. Install [Git](https://gitforwindows.org/) if you dont have it already and run this command:
@@ -39,14 +36,13 @@ cd EasyCassetteImages
 
 4. Install other required libraries:
 ```console
-python3 -m pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
-5. Use PyInstaller to package the source code into a useable .exe. This step is most likely why some antiviruses in VirusTotal detect this application as a virus. Windows Defender will most likely show up when running saying it's a potentially unwanted app. This does not mean it's a virus, Windows is just saying that there is a possibility of it being dangerous. Do your research on PyInstaller and different commands used in this build process if you feel skeptical in any way.
-![image](https://github.com/user-attachments/assets/f1b5ba98-1a8f-4c80-b6bd-7253b91b97d7)
+5. Use Nuitka to compile source code:
 ```console
-python3 -m PyInstaller main.py --onefile --noconsole
+python -m nuitka --standalone --enable-plugin=tk-inter --windows-console-mode=attach --mingw64 --windows-icon-from-ico=CassetteImageMakerIcon.ico main.py
 ```
 
-6. Open C:\Users\(name)\EasyCassetteImages and move all image files including the .ico into the dist folder. rename main.exe to whatever you want and you should be able to run it as long as the image files are in the same folder as the .exe. You don't need anything other than the dist folder now that you are complete
+6. Open C:\Users\(name)\EasyCassetteImages and copy all image files, including the .ico file into main.dist. main.dist is the finished compiled folder that can run the app.
 
