@@ -45,12 +45,14 @@ class AppWindow:
     def make_button(self, text, command="", pos_x=0, pos_y=0):
         button = tk.Button(self.window,
                            text=text,
-                           command=command,                           fg="white",
+                           command=command,
+                           fg="white",
                            bg=self.window.cget("bg"))
         button.place(x=pos_x, y=pos_y, anchor=tk.CENTER)
         return button
 
-    # Funny function name!
+    # removes all items from a tkinter canvas
+    # Don't take this function out of context
     def destroy_children(self):
         for child in self.window.winfo_children():
             child.destroy()

@@ -1,7 +1,7 @@
 from tkinter import filedialog
 from appWindow import AppWindow
 import tkinter as tk
-from PIL import ImageTk, Image
+from PIL import Image, ImageOps
 from functools import partial
 import os
 
@@ -10,6 +10,7 @@ class MovingImage:
     def __init__(self, main_window, img_path):
         super().__init__()
         self.main_window = main_window
+        self.img_path = img_path
         self.base_img = Image.open("BlankImage.png")
         self.base_img = self.base_img.convert("RGBA")
         self.base_img = self.base_img.resize((512, 512))
@@ -21,12 +22,16 @@ class MovingImage:
         self.scale = 1
         self.rotation = 0
         self.num_image = 1
+        self.flipped = False
 
+    # Updates screen to user based on set variables
     def update_image(self, adding_second_img=False):
         temp_base = self.base_img.copy()
         temp_img = self.img.copy()
         temp_img = temp_img.resize((int(temp_img.width * self.scale), int(temp_img.height * self.scale)))
         temp_img = temp_img.rotate(self.rotation)
+        if self.flipped:
+            temp_img = ImageOps.flip(temp_img)
         temp_base.paste(temp_img, (self.pos_x, self.pos_y), temp_img)
         if adding_second_img:
             self.base_img = temp_base.copy()
@@ -34,16 +39,23 @@ class MovingImage:
         self.main_window.make_image_from_obj(temp_base, 500, 300)
         return temp_base
 
-
+    # Changes the scale variable based on the input parameter and prevents the scale from reaching 0
     def resize(self, rate: float):
         if int(self.img.width * (self.scale * rate)) > 0 or int(self.img.height * (self.scale * rate)) > 0:
             self.scale *= rate
         self.update_image()
 
+    # Changes the rotation variable based on the angle input
     def rotate(self, angle: int):
         self.rotation += angle
         self.update_image()
 
+    # Flips over the current image
+    def flip(self):
+        self.flipped = not self.flipped
+        self.update_image()
+
+    # Moves the current image based on the set direction and distance to move
     def move(self, direction: str, amount=1):
         if direction.lower() == "left":
             self.pos_x -= amount
@@ -55,6 +67,7 @@ class MovingImage:
             self.pos_y += amount
         self.update_image()
 
+    # Resets variables in order to add a new image
     def reset(self):
         self.pos_x = 0
         self.pos_y = 0
@@ -62,36 +75,57 @@ class MovingImage:
         self.rotation = 0
         self.update_image()
 
+    # Asks the user for the destination of the cassette cover which attempts to default to the destination the game uses
+    # Exports the image and removes the editing screen
     def finished(self):
         try:
-            final_img_path = filedialog.asksaveasfilename(defaultextension=".png",
-                                                          filetypes=[("Image file", "*.png")],
+            final_img_path = filedialog.asksaveasfilename(defaultextension=".jpg",
+                                                          filetypes=[("Image file", "*.jpg")],
                                                           initialdir=(os.path.expanduser("~") + "\\AppData\\LocalLow\\Inzanity\\ROBOBEAT\\cassettes\\cassette_visuals"))
         except:
-            final_img_path = filedialog.asksaveasfilename(defaultextension=".png",
-                                                          filetypes=[("Image file", "*.png")])
+            final_img_path = filedialog.asksaveasfilename(defaultextension=".jpg",
+                                                          filetypes=[("Image file", "*.jpg")])
         if final_img_path:
             final_img = self.update_image()
             final_img.save(final_img_path)
             self.main_window.destroy_children()
             self.main_window.make_text("File Saved!", 500, 400)
 
-
-
-    def add_second_img(self):
+    # Uses the first image for the second image and mirrors the second image
+    # relative to x point 315, the center between the two cassette sides.
+    def mirror(self):
+        center_pos = int(315 - (self.img.width/2*self.scale))
+        new_pos_x = center_pos - self.pos_x
+        if new_pos_x < 0:
+            new_pos_x *= -1
+        else:
+            new_pos_x += center_pos
         if self.num_image < 2:
-            new_img_path = filedialog.askopenfilename(filetypes=[('Allowed Types', '*.png *.jpeg *.jpg')])
+            self.add_second_img(True)
+            self.pos_x = new_pos_x
+            print(self.pos_x)
+            self.rotation += 180
+            self.update_image()
+
+    # creates a second image and merges the first image with the cassette template
+    def add_second_img(self, is_mirroring=False):
+        if self.num_image < 2:
+            if is_mirroring:
+                new_img_path = self.img_path
+            else:
+                new_img_path = filedialog.askopenfilename(filetypes=[('Allowed Types', '*.png *.jpeg *.jpg')])
             if new_img_path:
                 self.num_image += 1
                 self.update_image(True)
-                self.reset()
+                if not is_mirroring:
+                    self.reset()
                 self.img = Image.open(new_img_path)
                 self.img = self.img.convert("RGBA")
                 self.update_image()
 
 
 
-
+# Asks the user to select a file to use for an image
 def select_file(window, making_second_image=False):
     img_path = filedialog.askopenfilename(filetypes=[('Allowed Types', '*.png *.jpeg *.jpg')])
     if img_path:
@@ -100,6 +134,7 @@ def select_file(window, making_second_image=False):
         moving_img.update_image()
         main_editor(window, moving_img)
 
+# layout of buttons and text that the user presses to change an image within the cassette template
 def main_editor(window, moving_img):
     window.make_button("Bigger", partial(moving_img.resize, 1.1), 500, 600)
     window.make_button("Bigger (Precise)", partial(moving_img.resize, 1.01), 650, 600)
@@ -108,6 +143,7 @@ def main_editor(window, moving_img):
     window.make_button("Smaller (Precise)", partial(moving_img.resize, 0.99), 650, 650)
 
     window.make_button("Rotate", partial(moving_img.rotate, 90), 500, 700)
+    window.make_button("Flip", moving_img.flip, 650, 700)
 
     window.make_text("Normal Movement", 150, 600)
     window.make_button("Up", partial(moving_img.move, "up", 10), 150, 650)
@@ -125,8 +161,11 @@ def main_editor(window, moving_img):
 
     window.make_button("Add Second Image", partial(moving_img.add_second_img), 850, 650)
 
+    window.make_button("Mirror First Image", moving_img.mirror, 850, 700)
+
 
 if __name__ == '__main__':
+    # Setup for the tkinter window
     newWindow = AppWindow(1000, 800)
     newWindow.make_image("CassetteImageMakerIcon.png", 500, 65)
     newWindow.make_text("Easy Cassette Image Maker for ROBOBEAT", 500, 25)
