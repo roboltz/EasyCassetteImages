@@ -79,12 +79,12 @@ class MovingImage:
     # Exports the image and removes the editing screen
     def finished(self):
         try:
-            final_img_path = filedialog.asksaveasfilename(defaultextension=".jpg",
-                                                          filetypes=[("Image file", "*.jpg")],
+            final_img_path = filedialog.asksaveasfilename(defaultextension=".png",
+                                                          filetypes=[("Image file", "*.png")],
                                                           initialdir=(os.path.expanduser("~") + "\\AppData\\LocalLow\\Inzanity\\ROBOBEAT\\cassettes\\cassette_visuals"))
         except:
-            final_img_path = filedialog.asksaveasfilename(defaultextension=".jpg",
-                                                          filetypes=[("Image file", "*.jpg")])
+            final_img_path = filedialog.asksaveasfilename(defaultextension=".png",
+                                                          filetypes=[("Image file", "*.png")])
         if final_img_path:
             final_img = self.update_image()
             final_img.save(final_img_path)
