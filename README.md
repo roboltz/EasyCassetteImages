@@ -5,11 +5,10 @@ Application for the game [ROBOBEAT](https://store.steampowered.com/app/1456760/R
 This makes creating the COVER IMAGES for the cassettes easy, it does not make creating the actual mapped part of the cassettes easier.
 
 ## Planned Features
-* Linux support.
 * Back Button.
 
 ## Build Instructions (Windows Only)
-A couple of sources in VirusTotal incorrectly detect that the compiled version of the app found in releases is malware. If you don't trust that it's not malware or you are contributing to the project, you can build the app yourself directly from the source code. There is currently no support for Linux or Mac, but Linux support is planned in the future.
+A couple of sources in VirusTotal incorrectly detect that the compiled version of the app found in releases is malware. If you don't trust that it's not malware or you are contributing to the project, you can build the app yourself directly from the source code. There is currently no support for Linux or Mac, since ROBOBEAT will only run on Windows. If support is added for either of them, I add versions of the app that support them as well.
 
 1. Make sure Python 3.12 is installed. (IMPORTANT: Make sure you are NOT using the microsoft store version of Python!):
 ```console
